@@ -1,0 +1,7 @@
+{
+  "layout": "flat",
+  "manager": "pnpm",
+  "binds": "@noy-db/hub/at",
+  "publishes": true,
+  "gates": ["architecture", "versions-uniform", "declared-deps", "codemod-rows"]
+}
