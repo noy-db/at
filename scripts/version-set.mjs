@@ -28,8 +28,18 @@
 //   pnpm version:set 0.7.1
 //   pnpm version:set 0.8.0-pre.0
 //
-// Then: `pnpm check:versions-uniform` (did it land everywhere) and
-//       `pnpm check:not-already-published` (is it ours to ship).
+// Then: `versions-uniform` (did it land everywhere). Both checks this comment
+// once named as `pnpm check:*` scripts are GONE from this repo — the gates moved
+// to family-tools, which CI fetches at @v1 and which has no local install here.
+// Run one by hand from a clone of noy-db/.github:
+//
+//   node <clone>/tools/cli.mjs versions-uniform --root .
+//
+// There is no `not-already-published` gate any more, in family-tools or in
+// release.yml. What answers "is this version ours to ship" now is the Release
+// itself: release.yml's verify requires a green dev snapshot on the same commit
+// and the tag to equal the manifest version, and `changeset publish` skips a
+// version the registry already has.
 import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join, resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -118,7 +128,8 @@ console.log(`\nSet the workspace to ${target}:\n`)
 for (const c of changes) console.log(`   ${c}`)
 console.log(
   `\nNext:\n` +
-    `   pnpm install                       # the lockfile must follow\n` +
-    `   pnpm check:versions-uniform        # did it land everywhere\n` +
-    `   pnpm check:not-already-published   # is this version ours to ship\n`,
+    `   pnpm install   # the lockfile must follow\n\n` +
+    `   Then: did it land everywhere? The gates live in family-tools now, and\n` +
+    `   this repo has no local copy — run it from a clone of noy-db/.github:\n\n` +
+    `   node <clone>/tools/cli.mjs versions-uniform --root .\n`,
 )
