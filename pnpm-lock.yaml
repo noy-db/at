@@ -39,17 +39,17 @@ importers:
         specifier: ^3.0.0
         version: 3.1123.0
       '@noy-db/hub':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0
       '@noy-db/on-shamir':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@noy-db/test-sealer-conformance':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -63,14 +63,14 @@ importers:
         specifier: ^4.0.0
         version: 4.10.2
       '@noy-db/hub':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0
       '@noy-db/on-shamir':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@noy-db/to-memory':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -78,17 +78,17 @@ importers:
   at-env:
     devDependencies:
       '@noy-db/hub':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0
       '@noy-db/on-shamir':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@noy-db/test-sealer-conformance':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -99,17 +99,17 @@ importers:
         specifier: ^4.0.0
         version: 4.5.0
       '@noy-db/hub':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0
       '@noy-db/on-shamir':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@noy-db/test-sealer-conformance':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -120,17 +120,17 @@ importers:
         specifier: ^1.1.0
         version: 1.3.0
       '@noy-db/hub':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0
       '@noy-db/on-shamir':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@noy-db/test-sealer-conformance':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
-        specifier: 0.7.0
-        version: 0.7.0(@noy-db/hub@0.7.0)
+        specifier: 0.8.0-pre.0
+        version: 0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -759,12 +759,12 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@noy-db/attestation@0.7.0':
-    resolution: {integrity: sha512-RIs0QXemA7U2y9DGlfD+s5GNRrIdiYA41z/aOFMtItZaQbqWcO5V/CW5mIuDAAO8wT6svakuL3vvgJrYvbT+fw==}
+  '@noy-db/attestation@0.8.0-pre.0':
+    resolution: {integrity: sha512-lOZ41aCx6mPF3VZhfGHzWvU+sL04+hGcnkwqGKB6Q1BHAkZhl63WFlpPmYUcEV3E6gbJHPWCHRFDi1tdJrhIjA==}
     engines: {node: '>=22.0.0'}
 
-  '@noy-db/hub@0.7.0':
-    resolution: {integrity: sha512-Et7O3fdthO2yl6jKJ9OMLTGHXv2G5bskXTrWhP1Z3SvYJ2xwYot2cFm5AO+A4R6ld6JgjOLhXjbfDvpQO7CCVg==}
+  '@noy-db/hub@0.8.0-pre.0':
+    resolution: {integrity: sha512-B/ceSYi+v5KyZ8fUYKUQeodF3X0w/9WPh1XK7+7BI3qssntBnFW1XrCfFCLvwHD09vYXZ5R4zhGepgsFI69O7w==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       zod: ^3.0.0 || ^4.0.0
@@ -775,22 +775,28 @@ packages:
       zod-to-json-schema:
         optional: true
 
-  '@noy-db/on-shamir@0.7.0':
-    resolution: {integrity: sha512-69vioiAsFPFXSki1c3I8JPmXS1IFtIT4JN7q3PizUm2GeM2R1SK/fb7XKvtAL8VeyNnC8WcBAnoC8Gt1Is9UZw==}
-    engines: {node: '>=22.0.0'}
-
-  '@noy-db/test-sealer-conformance@0.7.0':
-    resolution: {integrity: sha512-gvEj0P0fPFLkrhQvx+vKC2uiNnNGoZrVfCMFVU5BJN9Vq5WkiPdxDgPoK+zUhkfxoHrJyqz4rUgSNhgn4hvZRA==}
+  '@noy-db/on-shamir@0.8.0-pre.0':
+    resolution: {integrity: sha512-6DS6aBDWjFjGW1ucrG2T51EDrrpFYP0E3b8zKsyul+t+H5GOco4guLCFKhqPsEjU3HokTdd596P51uks6Zwtgg==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
-      '@noy-db/hub': ^0.7.0
+      '@noy-db/hub': ^0.7.0 || ^0.7.1-pre.0 || ^0.8.0-pre.0
+
+  '@noy-db/shamir@0.8.0-pre.0':
+    resolution: {integrity: sha512-8lKn52DKupUDK8SJCp10UXwJNjsJb/Ch5hb9+wiNsEOH1p7EQNQgxtxqPlE0yOzHjAaldmbBaGsz4vm4c9okWQ==}
+    engines: {node: '>=22.0.0'}
+
+  '@noy-db/test-sealer-conformance@0.8.0-pre.0':
+    resolution: {integrity: sha512-zl7ZWBe8qwIWw/HUOfPynwo7jZSuD+41fRCT447MjXkyUUbdmqmRCEORlzyV3o9exY8s3UFBe34WfuFidQvEwg==}
+    engines: {node: '>=22.0.0'}
+    peerDependencies:
+      '@noy-db/hub': ^0.8.0-pre.0
       vitest: ^3.0.0
 
-  '@noy-db/to-memory@0.7.0':
-    resolution: {integrity: sha512-EZsE3aSZ0tpW4bvD9S0Yc6keMnc4IAIvfEFMybXjP+0raE8H/htrZx6Kn0nRr8DGuc9OfoZ6+Rz1p9bCZk841Q==}
+  '@noy-db/to-memory@0.8.0-pre.0':
+    resolution: {integrity: sha512-SzYJU4iDuWkS92/8ess7g+gMBVMIRb2w9PvfLb4kEicLZ0WBLWZmvME/zfd3/xVxmxQU1q1UbiFxNr2QW8tWEQ==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
-      '@noy-db/hub': ^0.7.0
+      '@noy-db/hub': ^0.8.0-pre.0
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -2721,22 +2727,27 @@ snapshots:
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
 
-  '@noy-db/attestation@0.7.0': {}
+  '@noy-db/attestation@0.8.0-pre.0': {}
 
-  '@noy-db/hub@0.7.0':
+  '@noy-db/hub@0.8.0-pre.0':
     dependencies:
-      '@noy-db/attestation': 0.7.0
+      '@noy-db/attestation': 0.8.0-pre.0
 
-  '@noy-db/on-shamir@0.7.0': {}
-
-  '@noy-db/test-sealer-conformance@0.7.0(@noy-db/hub@0.7.0)(vitest@3.2.7(@types/node@22.20.1))':
+  '@noy-db/on-shamir@0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)':
     dependencies:
-      '@noy-db/hub': 0.7.0
+      '@noy-db/hub': 0.8.0-pre.0
+      '@noy-db/shamir': 0.8.0-pre.0
+
+  '@noy-db/shamir@0.8.0-pre.0': {}
+
+  '@noy-db/test-sealer-conformance@0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)(vitest@3.2.7(@types/node@22.20.1))':
+    dependencies:
+      '@noy-db/hub': 0.8.0-pre.0
       vitest: 3.2.7(@types/node@22.20.1)
 
-  '@noy-db/to-memory@0.7.0(@noy-db/hub@0.7.0)':
+  '@noy-db/to-memory@0.8.0-pre.0(@noy-db/hub@0.8.0-pre.0)':
     dependencies:
-      '@noy-db/hub': 0.7.0
+      '@noy-db/hub': 0.8.0-pre.0
 
   '@protobufjs/aspromise@1.1.2': {}
 

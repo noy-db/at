@@ -15,6 +15,56 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 ---
 
+## 0.8.0-pre.0
+
+Relicensed from MIT to Apache-2.0 from this version on. Earlier versions remain MIT.
+
+No package's `src/` changed in this release either. It is a licence, provenance and
+lockstep event: the code that shipped as `0.7.0` is the code that ships here, under a
+different licence and pinned to core's `0.8` line.
+
+### Changed
+
+- **Licence: MIT → Apache-2.0**, in all five manifests and this repo's root. Each
+  package now carries its own `LICENSE` (the canonical Apache-2.0 text) and a `NOTICE`
+  (`noy-db — Copyright 2026 vLannaAi`), and `files` lists `NOTICE` so both travel in
+  the tarball. ⚠️ The licence is a **version event, not a retro-edit**: `0.7.0` and
+  everything before it remain MIT and are not touched.
+
+- **The `check-license` gate is now declared** in `family.config.json`. It makes
+  "listed in `files` but missing on disk" impossible by construction — the shape that
+  a sibling repo shipped in its `0.7.0` tarballs. It was never shipped here: the
+  published `0.7.0` tarballs do carry a `LICENSE`, because they were cut from core's
+  monorepo, whose tree had the file. What this repo lacked was the file in its own
+  tree after extraction.
+
+- **The lockstep dev pins moved to `0.8.0-pre.0` as a unit** — `@noy-db/hub`,
+  `@noy-db/on-shamir`, `@noy-db/to-memory` and `@noy-db/test-sealer-conformance`
+  (the last in four of five packages; `at-azure-keyvault` binds no conformance kit,
+  and that gap is the one stated in the README, not an oversight here).
+
+- **The hub peer range was widened by APPENDING**: `^0.7.0` → `^0.7.0 || ^0.8.0-pre.0`,
+  in all five. A consumer already resolving on the 0.7 line keeps resolving; nothing
+  narrows. Written structurally rather than with `sed`, because a `|` delimiter
+  collides with the `||` the range now contains and any other delimiter truncates the
+  range silently.
+
+- **`@noy-db/on-shamir` is now published by `noy-db/on`, not by core.** The pin moves
+  from `0.7.0` (core-published) to `0.8.0-pre.0` (on-published) under the same name,
+  so the change is invisible to consumers of this repo and is recorded here only
+  because the publisher of a pinned dependency changed.
+
+### Added
+
+- **`.github/workflows/release.yml`** — the release caller, copied unchanged from
+  `noy-db/.github@v1`, `permissions` block included. It fires only when a Release is
+  published, and delegates to the family's reusable workflow.
+
+### Note
+
+`0.7.1-pre.0` never reached public npm. Its section below stands as written — it
+records work that is in this tree — but the registry went `0.7.0` → `0.8.0-pre.0`.
+
 ## 0.7.1-pre.0
 
 **This release ships functionally identical code to `0.7.0`.** No package's `src/`
