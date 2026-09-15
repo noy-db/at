@@ -31,7 +31,7 @@ const db = await createNoydb({
   }),
 })
 
-const vault = db.vault('acme')
+const vault = await db.openVault('acme')
 // First open: provider generates a fresh 32-byte AES-256 key, stores it
 // in the Keychain, hub uses it to seal a random secret. Subsequent
 // opens (this process or any future process running as alice on this

@@ -194,7 +194,6 @@ export function atMacosKeychain(
     // Dynamic require so non-darwin imports don't crash on package load.
     // The platform check above guards production callers; this branch
     // only runs for production (opts.entry was undefined) on darwin.
-    /* eslint-disable @typescript-eslint/no-require-imports */
     let Entry: new (service: string, account: string) => KeychainEntry
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -209,7 +208,6 @@ export function atMacosKeychain(
         + (err instanceof Error ? err.message : String(err)),
       )
     }
-    /* eslint-enable */
     resolvedEntry = new Entry(opts.service, opts.account)
     return resolvedEntry
   }

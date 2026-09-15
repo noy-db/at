@@ -93,7 +93,11 @@ describe('@noy-db/at-env — atEnv', () => {
     const sealed = await p.seal(new Uint8Array([10, 20, 30, 40]))
     // Flip a byte past the IV (offset 12) to break the GCM tag.
     const tampered = new Uint8Array(sealed)
-    tampered[15] ^= 0xff
+    // Assert the byte exists before flipping it: an out-of-range write on a
+    // typed array is a silent no-op, so without this a short envelope would
+    // leave the ciphertext untampered and the test would assert the wrong thing.
+    expect(tampered.length).toBeGreaterThan(15)
+    tampered[15]! ^= 0xff
     await expect(p.unseal(tampered)).rejects.toThrow()
   })
 })
