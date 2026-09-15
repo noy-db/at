@@ -8,6 +8,7 @@
     "lint": "pnpm -r lint",
     "test": "vitest run",
     "typecheck": "pnpm -r typecheck",
+    "typecheck:test": "tsc -p tsconfig.test.json",
     "version:set": "node scripts/version-set.mjs"
   },
   "devDependencies": {

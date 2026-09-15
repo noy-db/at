@@ -8,11 +8,11 @@ function fakeKms() {
       const c = new Uint8Array(4 + pt.length)
       c.set([9, 9, 9, 9], 0)
       c.set(pt, 4)
-      return [{ ciphertext: c }] as [{ ciphertext: Uint8Array }, undefined, undefined]
+      return [{ ciphertext: c }, undefined, undefined] as const
     },
     decrypt: async (req: { name?: string | null; ciphertext?: Uint8Array | string | null }) => {
       const ct = req.ciphertext as Uint8Array
-      return [{ plaintext: ct.subarray(4) }] as [{ plaintext: Uint8Array }, undefined, undefined]
+      return [{ plaintext: ct.subarray(4) }, undefined, undefined] as const
     },
   }
 }
@@ -39,8 +39,8 @@ describe('atGcpKms', () => {
 
   it('seal throws when KMS encrypt returns no ciphertext', async () => {
     const client = {
-      encrypt: async () => [{}] as [Record<string, never>, undefined, undefined],
-      decrypt: async () => [{}] as [Record<string, never>, undefined, undefined],
+      encrypt: async () => [{}, undefined, undefined] as const,
+      decrypt: async () => [{}, undefined, undefined] as const,
     }
     const p = atGcpKms({ keyName: 'k', client: client as any })
     await expect(p.seal(new Uint8Array([1, 2, 3]))).rejects.toThrow(/no ciphertext/)
@@ -48,8 +48,8 @@ describe('atGcpKms', () => {
 
   it('unseal throws when KMS decrypt returns no plaintext', async () => {
     const client = {
-      encrypt: async () => [{}] as [Record<string, never>, undefined, undefined],
-      decrypt: async () => [{}] as [Record<string, never>, undefined, undefined],
+      encrypt: async () => [{}, undefined, undefined] as const,
+      decrypt: async () => [{}, undefined, undefined] as const,
     }
     const p = atGcpKms({ keyName: 'k', client: client as any })
     await expect(p.unseal(new Uint8Array([1, 2, 3]))).rejects.toThrow(/no plaintext/)

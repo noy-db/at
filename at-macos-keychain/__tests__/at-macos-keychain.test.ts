@@ -136,7 +136,10 @@ describe('@noy-db/at-macos-keychain — seal/unseal pipeline', () => {
     })
     const sealed = await p.seal(new Uint8Array([10, 20, 30, 40]))
     const tampered = new Uint8Array(sealed)
-    tampered[15] ^= 0xff // flip a byte in the ciphertext+tag region
+    // See at-env's equivalent: an out-of-range typed-array write is a silent
+    // no-op, so the length must be asserted before the flip means anything.
+    expect(tampered.length).toBeGreaterThan(15)
+    tampered[15]! ^= 0xff // flip a byte in the ciphertext+tag region
     await expect(p.unseal(tampered)).rejects.toThrow()
   })
 })

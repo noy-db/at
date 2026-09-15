@@ -68,6 +68,9 @@ importers:
       '@noy-db/on-shamir':
         specifier: 0.8.0
         version: 0.8.0(@noy-db/hub@0.8.0)
+      '@noy-db/test-sealer-conformance':
+        specifier: 0.8.0
+        version: 0.8.0(@noy-db/hub@0.8.0)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
         specifier: 0.8.0
         version: 0.8.0(@noy-db/hub@0.8.0)

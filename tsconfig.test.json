@@ -1,0 +1,20 @@
+{
+  // Typechecks the suites, which `pnpm typecheck` does not: every package's
+  // own tsconfig is scoped `include: ["src"]`, and vitest transpiles the test
+  // files without typechecking them. Without this, a suite that compiles by
+  // accident against a stale hub type is indistinguishable from a correct one
+  // — and these suites are the only thing standing behind the providers.
+  //
+  // One config at the root rather than five per package: the suites share
+  // every setting, and `at-*/__tests__` is the whole set.
+  //
+  // ⛔ Do NOT set `types: []` here to "isolate" the test program. It strips
+  // ambient globals, not just the ones a reader expects to lose, and the
+  // failure surfaces far from the edit.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "noEmit": true
+  },
+  "include": ["at-*/src", "at-*/__tests__"]
+}
