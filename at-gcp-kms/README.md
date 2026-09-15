@@ -89,4 +89,4 @@ Returns a [`NoydbSealer`](../hub/src/port/at/index.ts) — importable as `@noy-d
 
 ## License
 
-MIT
+Apache-2.0

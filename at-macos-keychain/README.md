@@ -143,4 +143,4 @@ For real-Keychain integration tests on darwin CI runners, leave `entry` undefine
 
 ## License
 
-MIT
+Apache-2.0
