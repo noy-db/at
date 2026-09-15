@@ -15,6 +15,74 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 ---
 
+## Unreleased
+
+### Added
+
+- **`pnpm typecheck:test` — the suites are typechecked.** Every package's `tsconfig.json`
+  is scoped `include: ["src"]`, and vitest transpiles test files without typechecking
+  them, so 11 test files had no type coverage at all. A root `tsconfig.test.json` covers
+  `at-*/src` + `at-*/__tests__`, and `family.config.json` declares it under `localChecks`
+  so CI runs it beside the gates. ⚠️ It found **8 real errors on its first run**: the
+  `at-gcp-kms` fake Cloud KMS client returned a 1-tuple and cast it to the 3-tuple the
+  real client resolves (×6), and `tampered[15] ^= 0xff` in two tamper-detection tests
+  where an out-of-range typed-array write is a **silent no-op** — a short envelope would
+  have left the ciphertext untampered and the test asserting nothing, while green.
+
+- **`at-azure-keyvault` binds `@noy-db/test-sealer-conformance`**, so all five packages
+  now have kit coverage. ⚠️ It takes **`runDelegatingSealerObligations`**, matching
+  `at-aws-kms` and `at-gcp-kms` — not the full `runSealerConformanceTests` suite. For a
+  delegating provider the properties that suite asserts (refusing tampered, foreign or
+  garbage input) are the *service's* behaviour, so a fake Key Vault in front of it would
+  test the fake. What is pinned is what belongs to the provider: a service failure must
+  surface, and an empty response must throw rather than be fabricated into empty bytes.
+
+### Fixed
+
+- `at-macos-keychain`'s README called `db.vault('acme')` directly after `createNoydb()`.
+  Hub's `vault()` is synchronous access to an **already-open** vault and throws rather
+  than constructing, so the snippet could not run and its comment described first-open
+  behaviour on a call that never opens. It now uses `await db.openVault('acme')`, as the
+  other four READMEs already did.
+
+- An inert `eslint-disable @typescript-eslint/no-require-imports` at
+  `at-macos-keychain/src/index.ts:197`. Measured rather than assumed: removing it leaves
+  lint fully clean, so the rule is not enabled by this config. The `require` it named is
+  still there; the directive never did anything.
+
+- `eslint.config.mjs` described itself as the config "for the noy-db-to standalone
+  package" — an extraction copy-paste, present verbatim in three extracted repos.
+
+- `scripts/version-set.mjs` pointed at `pnpm check:versions-uniform` and
+  `pnpm check:not-already-published`. Neither is a script here any more: the first
+  survives as a family-tools gate, the second survives nowhere. Comment and console
+  output only.
+
+Test baseline moves **11 → 12 files, 91 → 95 passed**. The 4 skips are unchanged and
+still the inherited credential-gated cloud cases.
+
+---
+
+## 0.8.0
+
+The stable cut of the `0.8` line. **No package's `src/` changed** between `0.8.0-pre.0`
+and this release — it is a version and pinning event.
+
+### Changed
+
+- **Version `0.8.0-pre.0` → `0.8.0`** across all five packages, with the four exact dev
+  pins moving with it (`@noy-db/hub`, `@noy-db/on-shamir`, `@noy-db/test-sealer-conformance`,
+  `@noy-db/to-memory`). ⚠️ As of this line those pins come from **two** repos, not one:
+  `on-shamir` is published by `noy-db/on` since its move from core. Read the publisher
+  off the artefact (`npm view @noy-db/on-shamir repository.url`), never off a doc.
+
+- **A `nightly` workflow caller was added.** The family's per-push CI matrix narrowed to
+  Node 22 only; this runs the full `["22","24"]` matrix on a schedule plus
+  `workflow_dispatch`. ⛔ Without it this repo would simply have stopped testing Node 24 —
+  a trim, not a deletion, and only honest if the wider matrix still runs somewhere.
+
+---
+
 ## 0.8.0-pre.0
 
 Relicensed from MIT to Apache-2.0 from this version on. Earlier versions remain MIT.
