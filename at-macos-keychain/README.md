@@ -1,5 +1,12 @@
 # @noy-db/at-macos-keychain
 
+<!-- prose-preamble
+// Bindings the illustrative blocks below elide. Typed, not stubbed: `declare`
+// costs no runtime dependency, so the preamble cannot drift from a fixture.
+import type { NoydbStore } from '@noy-db/hub'
+declare const store: NoydbStore
+-->
+
 **macOS Keychain sealing key provider for noy-db [managed-secret mode](https://github.com/noy-db/core/issues/14).**
 
 Desktop-app provider in the `at-*` family. Binds the sealing key to the user's macOS login Keychain — accessible only to processes running as the same user, optionally gated by Touch ID via Keychain Access UI.

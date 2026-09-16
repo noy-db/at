@@ -1,5 +1,12 @@
 # @noy-db/at-azure-keyvault
 
+<!-- prose-preamble
+// Bindings the illustrative blocks below elide. Typed, not stubbed: `declare`
+// costs no runtime dependency, so the preamble cannot drift from a fixture.
+import type { NoydbStore } from '@noy-db/hub'
+declare const store: NoydbStore
+-->
+
 **Azure Key Vault sealing key provider for noy-db [managed-secret mode](https://github.com/noy-db/core/issues/14).**
 
 An `at-*` provider that seals and unseals the hub-generated random secret via Azure Key Vault Encrypt / Decrypt. Every seal and unseal is an authenticated Key Vault API call — giving you an Azure Monitor / Key Vault audit-log-backed access record of every time a user's vault is opened, with no additional instrumentation required.

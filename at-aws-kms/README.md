@@ -1,5 +1,12 @@
 # @noy-db/at-aws-kms
 
+<!-- prose-preamble
+// Bindings the illustrative blocks below elide. Typed, not stubbed: `declare`
+// costs no runtime dependency, so the preamble cannot drift from a fixture.
+import type { NoydbStore } from '@noy-db/hub'
+declare const store: NoydbStore
+-->
+
 **AWS KMS sealing key provider for noy-db [managed-secret mode](https://github.com/noy-db/core/issues/14).**
 
 An `at-*` provider that seals and unseals the hub-generated random secret via AWS KMS Encrypt / Decrypt. Every seal and unseal is an authenticated KMS API call — giving you a CloudTrail-backed access log of every time a user's vault is opened, with no additional instrumentation required.

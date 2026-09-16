@@ -1,5 +1,12 @@
 # @noy-db/at-env
 
+<!-- prose-preamble
+// Bindings the illustrative blocks below elide. Typed, not stubbed: `declare`
+// costs no runtime dependency, so the preamble cannot drift from a fixture.
+import type { NoydbStore } from '@noy-db/hub'
+declare const store: NoydbStore
+-->
+
 **Env-var sealing key provider for noy-db [managed-secret mode](https://github.com/noy-db/core/issues/14).**
 
 The smallest production-shape provider in the `at-*` family. Reads a 32-byte AES-256-GCM key from an environment variable (base64-encoded) and uses it to seal the hub-generated random secret — so your users never see or type a secret, but the encryption keys are still under your control.
