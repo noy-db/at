@@ -81,4 +81,4 @@ Throws at construction when the env var is unset, not valid base64, or not 32 by
 
 ## License
 
-Apache-2.0
+Apache-2.0 © vLannaAi

@@ -76,4 +76,4 @@ Returns a [`NoydbSealer`](../hub/src/port/at/index.ts) — importable as `@noy-d
 
 ## License
 
-Apache-2.0
+Apache-2.0 © vLannaAi

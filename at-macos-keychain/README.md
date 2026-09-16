@@ -143,4 +143,4 @@ For real-Keychain integration tests on darwin CI runners, leave `entry` undefine
 
 ## License
 
-Apache-2.0
+Apache-2.0 © vLannaAi
