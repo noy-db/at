@@ -12,7 +12,7 @@
  * `seal` IS the service call. Standing a fake in front of those would test the
  * fake; see the kit's README.
  */
-import { runSealerConformanceTests } from '@noy-db/test-sealer-conformance'
+import { runSealerConformanceTests } from '@noy-db/ports/at'
 import { atMacosKeychain, type KeychainEntry } from '../src/index.js'
 
 /** Memory-backed KeychainEntry — the key store, not the cryptography. */

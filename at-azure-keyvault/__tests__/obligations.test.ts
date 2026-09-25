@@ -10,7 +10,7 @@
  * is why the three cloud providers take the obligations entry point and the
  * two local providers take the conformance one.
  */
-import { runDelegatingSealerObligations } from '@noy-db/test-sealer-conformance'
+import { runDelegatingSealerObligations } from '@noy-db/ports/at'
 import { atAzureKeyvault } from '../src/index.js'
 
 const keyId = 'https://my-vault.vault.azure.net/keys/noydb-sealing/abc123'
