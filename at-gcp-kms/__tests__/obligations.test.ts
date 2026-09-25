@@ -3,7 +3,7 @@
  * contract is the service's. These pin the two obligations that are this
  * package's own: surface a failure, and never fabricate output.
  */
-import { runDelegatingSealerObligations } from '@noy-db/test-sealer-conformance'
+import { runDelegatingSealerObligations } from '@noy-db/ports/at'
 import { atGcpKms } from '../src/index.js'
 
 const rejecting = {

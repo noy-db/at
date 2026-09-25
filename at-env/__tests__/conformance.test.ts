@@ -1,12 +1,12 @@
 /**
  * at-env against the published `NoydbSealer` contract.
  *
- * The suite lives in @noy-db/test-sealer-conformance so that "implements the
+ * The suite lives in @noy-db/ports/at so that "implements the
  * contract" means the same thing here, in hub's reference double, and in a
  * third party's provider — rather than one thing per package, checked against
  * each package's own reading of the interface.
  */
-import { runSealerConformanceTests } from '@noy-db/test-sealer-conformance'
+import { runSealerConformanceTests } from '@noy-db/ports/at'
 import { atEnv } from '../src/index.js'
 
 // Two independently-keyed providers: the cross-provider refusal case cannot be

@@ -4,7 +4,7 @@
  * AWS's behaviour, not this package's. What IS this package's — surfacing a
  * failure and not fabricating output — is covered here with a stub client.
  */
-import { runDelegatingSealerObligations } from '@noy-db/test-sealer-conformance'
+import { runDelegatingSealerObligations } from '@noy-db/ports/at'
 import { atAwsKms } from '../src/index.js'
 
 const rejecting = { send: async () => { throw new Error('KMS: AccessDeniedException') } }
