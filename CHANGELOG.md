@@ -17,6 +17,8 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 ## 0.9.0-pre.0
 
+Joins the 0.9 line, and ships the typechecked suites plus `at-azure-keyvault`'s conformance binding. All five packages move to `0.9.0-pre.0` together.
+
 ### Added
 
 - **`pnpm typecheck:test` — the suites are typechecked.** Every package's `tsconfig.json`
