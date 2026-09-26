@@ -15,7 +15,7 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 ---
 
-## Unreleased
+## 0.9.0-pre.0
 
 ### Added
 
@@ -60,6 +60,15 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 Test baseline moves **11 → 12 files, 91 → 95 passed**. The 4 skips are unchanged and
 still the inherited credential-gated cloud cases.
+
+### 0.9 line
+
+- Exact dev pins on `@noy-db/hub` and `@noy-db/ports` move `0.9.0-pre.1` → `0.9.0-pre.2`.
+  The `@noy-db/hub` peer range already carried `^0.9.0-pre.1` and needs no second append: for a
+  0.x caret npm reads that as `>=0.9.0-pre.1 <0.10.0`, so it already admits `0.9.0` stable.
+  `^0.9.0-pre.1` rather than `-pre.0` is deliberate — `pre.0` carries core#132 (last-writer-wins
+  `_keyring` writes, `TamperedError` on a cold read) and nothing should resolve to it.
+- No source change at the new pin: 12 test files / 95 passed + 4 skipped, `typecheck`, `typecheck:test` and all seven gates green.
 
 ---
 

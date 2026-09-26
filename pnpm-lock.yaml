@@ -39,17 +39,17 @@ importers:
         specifier: ^3.0.0
         version: 3.1123.0
       '@noy-db/hub':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2
       '@noy-db/on-shamir':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@noy-db/ports':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1(@noy-db/hub@0.9.0-pre.1)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2(@noy-db/hub@0.9.0-pre.2)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -63,17 +63,17 @@ importers:
         specifier: ^4.0.0
         version: 4.10.2
       '@noy-db/hub':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2
       '@noy-db/on-shamir':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@noy-db/ports':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1(@noy-db/hub@0.9.0-pre.1)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2(@noy-db/hub@0.9.0-pre.2)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -81,17 +81,17 @@ importers:
   at-env:
     devDependencies:
       '@noy-db/hub':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2
       '@noy-db/on-shamir':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@noy-db/ports':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1(@noy-db/hub@0.9.0-pre.1)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2(@noy-db/hub@0.9.0-pre.2)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -102,17 +102,17 @@ importers:
         specifier: ^4.0.0
         version: 4.5.0
       '@noy-db/hub':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2
       '@noy-db/on-shamir':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@noy-db/ports':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1(@noy-db/hub@0.9.0-pre.1)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2(@noy-db/hub@0.9.0-pre.2)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -123,17 +123,17 @@ importers:
         specifier: ^1.1.0
         version: 1.3.0
       '@noy-db/hub':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2
       '@noy-db/on-shamir':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@noy-db/ports':
-        specifier: 0.9.0-pre.1
-        version: 0.9.0-pre.1(@noy-db/hub@0.9.0-pre.1)(vitest@3.2.7(@types/node@22.20.1))
+        specifier: 0.9.0-pre.2
+        version: 0.9.0-pre.2(@noy-db/hub@0.9.0-pre.2)(vitest@3.2.7(@types/node@22.20.1))
       '@noy-db/to-memory':
         specifier: 0.8.0
-        version: 0.8.0(@noy-db/hub@0.9.0-pre.1)
+        version: 0.8.0(@noy-db/hub@0.9.0-pre.2)
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -762,8 +762,8 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@noy-db/hub@0.9.0-pre.1':
-    resolution: {integrity: sha512-yWuN6x4vZX0KwKa4OsxMpfUppsDgkh7f1TIgzffmhMZw4DKvuAN1uESBnOIkFkTCG2d5qkT22OrSiM79wJ/VRg==}
+  '@noy-db/hub@0.9.0-pre.2':
+    resolution: {integrity: sha512-FxN6P5InqIHRyylJHVO8vBUifY5Vomn9RLrCiXFS5E5XMA79yStFg1lG9dUNRCFfOhbo5Vk6uaGtDrx6XH14ow==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       zod: ^3.0.0 || ^4.0.0
@@ -780,11 +780,11 @@ packages:
     peerDependencies:
       '@noy-db/hub': ^0.7.0 || ^0.7.1-pre.0 || ^0.8.0-pre.0
 
-  '@noy-db/ports@0.9.0-pre.1':
-    resolution: {integrity: sha512-3XdE626g8FeoW8rI/BcEUc2SxqJHNbMiE/qUIBBoI52Y7HP7D6Uc0E+d0s8XR7+IJdNCwPIMc2AsWy/AWqPAFA==}
+  '@noy-db/ports@0.9.0-pre.2':
+    resolution: {integrity: sha512-W57lg+9UijprKKZN1RE2ThqF/l20RM8LXI77W7Kgvpfd+TK1YBkuZ1F/pi0ERLyYqC77sc7/Zuzl17K41v/bug==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
-      '@noy-db/hub': ^0.9.0-pre.1
+      '@noy-db/hub': ^0.9.0-pre.2
       vitest: ^3.0.0
 
   '@noy-db/shamir@0.8.0-pre.0':
@@ -2726,23 +2726,23 @@ snapshots:
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
 
-  '@noy-db/hub@0.9.0-pre.1': {}
+  '@noy-db/hub@0.9.0-pre.2': {}
 
-  '@noy-db/on-shamir@0.8.0(@noy-db/hub@0.9.0-pre.1)':
+  '@noy-db/on-shamir@0.8.0(@noy-db/hub@0.9.0-pre.2)':
     dependencies:
-      '@noy-db/hub': 0.9.0-pre.1
+      '@noy-db/hub': 0.9.0-pre.2
       '@noy-db/shamir': 0.8.0-pre.0
 
-  '@noy-db/ports@0.9.0-pre.1(@noy-db/hub@0.9.0-pre.1)(vitest@3.2.7(@types/node@22.20.1))':
+  '@noy-db/ports@0.9.0-pre.2(@noy-db/hub@0.9.0-pre.2)(vitest@3.2.7(@types/node@22.20.1))':
     dependencies:
-      '@noy-db/hub': 0.9.0-pre.1
+      '@noy-db/hub': 0.9.0-pre.2
       vitest: 3.2.7(@types/node@22.20.1)
 
   '@noy-db/shamir@0.8.0-pre.0': {}
 
-  '@noy-db/to-memory@0.8.0(@noy-db/hub@0.9.0-pre.1)':
+  '@noy-db/to-memory@0.8.0(@noy-db/hub@0.9.0-pre.2)':
     dependencies:
-      '@noy-db/hub': 0.9.0-pre.1
+      '@noy-db/hub': 0.9.0-pre.2
 
   '@protobufjs/aspromise@1.1.2': {}
 
