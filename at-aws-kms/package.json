@@ -1,7 +1,7 @@
 {
   "name": "@noy-db/at-aws-kms",
-  "version": "0.9.0-pre.0",
-  "description": "AWS KMS sealing key provider for noy-db managed-secret mode \u2014 seal/unseal via KMS Encrypt/Decrypt, with KMS access logs.",
+  "version": "0.9.0",
+  "description": "AWS KMS sealing key provider for noy-db managed-secret mode — seal/unseal via KMS Encrypt/Decrypt, with KMS access logs.",
   "license": "Apache-2.0",
   "author": "vLannaAi <vicio@lanna.ai>",
   "homepage": "https://github.com/noy-db/at/tree/main/at-aws-kms#readme",
@@ -44,10 +44,10 @@
   },
   "devDependencies": {
     "@aws-sdk/client-kms": "^3.0.0",
-    "@noy-db/hub": "0.9.0-pre.2",
-    "@noy-db/on-shamir": "0.8.0",
-    "@noy-db/ports": "0.9.0-pre.2",
-    "@noy-db/to-memory": "0.8.0",
+    "@noy-db/hub": "0.9.0",
+    "@noy-db/on-shamir": "0.9.0",
+    "@noy-db/ports": "0.9.0",
+    "@noy-db/to-memory": "0.9.0",
     "@types/node": "^22.0.0"
   },
   "keywords": [

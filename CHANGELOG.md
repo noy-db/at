@@ -15,6 +15,18 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 ---
 
+## 0.9.0
+
+**Five sealing-key providers join the 0.9 stable line.** Exact dev pins on `@noy-db/hub`,
+`@noy-db/ports`, `@noy-db/to-memory` and `@noy-db/on-shamir` move to `0.9.0`.
+
+- ⭐ **`@noy-db/on-shamir` is why this repo publishes after `noy-db/on`.** It is a cross-repo exact dev
+  pin, so it cannot move to `0.9.0` until `on` has published that version — and nothing in the
+  documented publish order says so, because the order describes the SEAM graph while an exact pin is an
+  install-time relation. Derived and enforced mechanically as of this cut.
+- ⛔ **`peerDependencies` untouched.** The `@noy-db/hub` range already carries `^0.9.0-pre.1`, which for a
+  0.x caret is `>=0.9.0-pre.1 <0.10.0` — it admits `0.9.0` stable already.
+
 ## 0.9.0-pre.0
 
 Joins the 0.9 line, and ships the typechecked suites plus `at-azure-keyvault`'s conformance binding. All five packages move to `0.9.0-pre.0` together.
