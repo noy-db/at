@@ -15,6 +15,15 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 ---
 
+## 0.10.0-pre.0
+
+**Five sealing-key providers join the 0.10 pre line**, in the whole-family `0.10.0-pre.0` cut. No source
+change. Exact dev pins on `@noy-db/hub`, `@noy-db/ports`, `@noy-db/to-memory` and `@noy-db/on-shamir`
+move to `0.10.0-pre.0`. That is again why this repo cuts after `to` and `on`.
+
+- `|| ^0.10.0-pre.0` **appended** to every `@noy-db/hub` peer range. A 0.x caret excludes the next
+  minor, so `^0.9.0-pre.1` does not admit `0.10.0-pre.0`.
+
 ## 0.9.0
 
 **Five sealing-key providers join the 0.9 stable line.** Exact dev pins on `@noy-db/hub`,

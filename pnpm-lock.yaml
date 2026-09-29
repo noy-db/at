@@ -42,17 +42,17 @@ importers:
         specifier: ^3.0.0
         version: 3.1123.0
       '@noy-db/hub':
-        specifier: 0.9.0
-        version: 0.9.0(zod@4.6.5)
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(zod@4.6.5)
       '@noy-db/on-shamir':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@noy-db/ports':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
       '@noy-db/to-memory':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -66,17 +66,17 @@ importers:
         specifier: ^4.0.0
         version: 4.10.2
       '@noy-db/hub':
-        specifier: 0.9.0
-        version: 0.9.0(zod@4.6.5)
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(zod@4.6.5)
       '@noy-db/on-shamir':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@noy-db/ports':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
       '@noy-db/to-memory':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -84,17 +84,17 @@ importers:
   at-env:
     devDependencies:
       '@noy-db/hub':
-        specifier: 0.9.0
-        version: 0.9.0(zod@4.6.5)
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(zod@4.6.5)
       '@noy-db/on-shamir':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@noy-db/ports':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
       '@noy-db/to-memory':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -105,17 +105,17 @@ importers:
         specifier: ^4.0.0
         version: 4.5.0
       '@noy-db/hub':
-        specifier: 0.9.0
-        version: 0.9.0(zod@4.6.5)
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(zod@4.6.5)
       '@noy-db/on-shamir':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@noy-db/ports':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
       '@noy-db/to-memory':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -126,17 +126,17 @@ importers:
         specifier: ^1.1.0
         version: 1.3.0
       '@noy-db/hub':
-        specifier: 0.9.0
-        version: 0.9.0(zod@4.6.5)
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(zod@4.6.5)
       '@noy-db/on-shamir':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@noy-db/ports':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))
       '@noy-db/to-memory':
-        specifier: 0.9.0
-        version: 0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))
+        specifier: 0.10.0-pre.0
+        version: 0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.1
@@ -781,8 +781,8 @@ packages:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
       '@emnapi/runtime': ^1.7.1 || ^2.0.0-alpha.4
 
-  '@noy-db/hub@0.9.0':
-    resolution: {integrity: sha512-KEmlOw6YmMDB6fi7gFJKGaMYuifNIWN16SlUDUrmIDf22xLczh3L0bOZlbhW+FhmmjlOJiZF/FjYxNJS+Ee11w==}
+  '@noy-db/hub@0.10.0-pre.0':
+    resolution: {integrity: sha512-cQOrfzd6iuuo+iryw92sGz5+3Xn2b7ri1FGTApMgi5W8S+233kpp+jYhli4jFSHBSZdTtXnrflNxsQ6ed54dKw==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       zod: ^3.0.0 || ^4.0.0
@@ -793,29 +793,29 @@ packages:
       zod-to-json-schema:
         optional: true
 
-  '@noy-db/on-shamir@0.9.0':
-    resolution: {integrity: sha512-ua/usIBS4D5CE7UoyIqgvMxAaO9q4MkhE7dCuNXr8gJXPNKsiiHiRwuBw9imFVRepSGpgQ+NIzBdhE2cmC4Jiw==}
+  '@noy-db/on-shamir@0.10.0-pre.0':
+    resolution: {integrity: sha512-i4jotqvzjsGMU1N9YcbJN0ogLkOraya61DLgnvWJwAbSOA96wVw6YpLYnpZ2OBiWSH+mVEgPNpnslcc3nxk2Rw==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
-      '@noy-db/hub': ^0.7.0 || ^0.7.1-pre.0 || ^0.8.0-pre.0 || ^0.9.0-pre.1
+      '@noy-db/hub': ^0.7.0 || ^0.7.1-pre.0 || ^0.8.0-pre.0 || ^0.9.0-pre.1 || ^0.10.0-pre.0
 
-  '@noy-db/ports@0.9.0':
-    resolution: {integrity: sha512-Myt30JSMM2NU4wNlJveM/gcI3VR3OzegdDJJ0L17UWKasq4KCxBiX8qCAM6NS1n+4pfU3PFKfpQ1mLu5636aqg==}
+  '@noy-db/ports@0.10.0-pre.0':
+    resolution: {integrity: sha512-+BQ3yNOqGEfej6vQhPsM2x+FbTXzjoJiiqOHY5k8tCVn9bcm6CmLNRDS81xVS824VauT4sV2PSieP/qvZM82KA==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
-      '@noy-db/hub': ^0.9.0
+      '@noy-db/hub': ^0.10.0-pre.0
       vitest: ^3.0.0
 
   '@noy-db/shamir@0.8.0-pre.0':
     resolution: {integrity: sha512-8lKn52DKupUDK8SJCp10UXwJNjsJb/Ch5hb9+wiNsEOH1p7EQNQgxtxqPlE0yOzHjAaldmbBaGsz4vm4c9okWQ==}
     engines: {node: '>=22.0.0'}
-    deprecated: Superseded by 0.8.0. The 0.8 line is the supported release. 0.7.0 to 0.8.0 is witnessed in both directions for pod data (upgrade and rollback). Versions below 0.7.0 have no witnessed migration path - read the 0.8.0 release notes before moving.
+    deprecated: Superseded by 0.9.0. The 0.9 line is the supported release. 0.7.0 to 0.9.0 is witnessed in both directions for pod data (upgrade and rollback). Versions below 0.7.0 have no witnessed migration path - read the 0.9.0 release notes before moving.
 
-  '@noy-db/to-memory@0.9.0':
-    resolution: {integrity: sha512-aWd0gm1e/lNhFZ0+ksYXJJhyEu3h7xRqnvbNnx6NPogPlZKFJILPtizW12+L47T14EW7TzQKKgHSmXE8glZUNA==}
+  '@noy-db/to-memory@0.10.0-pre.0':
+    resolution: {integrity: sha512-R5lSiCqr5ZMiJl87Ly7mrmruKyw7k5ZeV0pOyqx+yK90wy2X4WwX+xNcM902zToW+a7K/1WJGjHGESAqjQjOiw==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
-      '@noy-db/hub': ^0.8.0 || ^0.9.0-pre.1
+      '@noy-db/hub': ^0.8.0 || ^0.9.0-pre.1 || ^0.10.0-pre.0
 
   '@oxc-parser/binding-android-arm-eabi@0.150.0':
     resolution: {integrity: sha512-oQef2Zu4Prz1KLKznz3HqZzU9uVoA5PMoDZuuLmqms7hKmKSAPzlaMnLllJq3t+rgKmfJJ2siPrpZfFrW06btw==}
@@ -3041,25 +3041,25 @@ snapshots:
       '@tybys/wasm-util': 0.10.4
     optional: true
 
-  '@noy-db/hub@0.9.0(zod@4.6.5)':
+  '@noy-db/hub@0.10.0-pre.0(zod@4.6.5)':
     optionalDependencies:
       zod: 4.6.5
 
-  '@noy-db/on-shamir@0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))':
+  '@noy-db/on-shamir@0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))':
     dependencies:
-      '@noy-db/hub': 0.9.0(zod@4.6.5)
+      '@noy-db/hub': 0.10.0-pre.0(zod@4.6.5)
       '@noy-db/shamir': 0.8.0-pre.0
 
-  '@noy-db/ports@0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))':
+  '@noy-db/ports@0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))(vitest@3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
-      '@noy-db/hub': 0.9.0(zod@4.6.5)
+      '@noy-db/hub': 0.10.0-pre.0(zod@4.6.5)
       vitest: 3.2.7(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.1)
 
   '@noy-db/shamir@0.8.0-pre.0': {}
 
-  '@noy-db/to-memory@0.9.0(@noy-db/hub@0.9.0(zod@4.6.5))':
+  '@noy-db/to-memory@0.10.0-pre.0(@noy-db/hub@0.10.0-pre.0(zod@4.6.5))':
     dependencies:
-      '@noy-db/hub': 0.9.0(zod@4.6.5)
+      '@noy-db/hub': 0.10.0-pre.0(zod@4.6.5)
 
   '@oxc-parser/binding-android-arm-eabi@0.150.0':
     optional: true
