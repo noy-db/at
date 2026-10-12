@@ -79,7 +79,11 @@
  * @packageDocumentation
  */
 
+import { createHash } from 'node:crypto'
+import { closeSync, openSync, statSync, unlinkSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 
 import type { NoydbSealer } from '@noy-db/hub/at'
 
@@ -224,19 +228,29 @@ export function atMacosKeychain(
         if (stored === null) {
           // First call ever for this (service, account) — generate a
           // fresh 32-byte AES-256 key, base64-encode for string
-          // storage, persist.
-          const fresh = new Uint8Array(32)
-          globalThis.crypto.getRandomValues(fresh)
-          entry.setPassword(bytesToBase64(fresh))
-          stored = entry.getPassword()
-          if (stored === null) {
-            throw new Error(
-              '@noy-db/at-macos-keychain: setPassword succeeded but '
-              + 'getPassword returned null immediately after. '
-              + 'Keychain may be denying access or the entry was '
-              + 'deleted out from under us.',
-            )
-          }
+          // storage, persist. setPassword OVERWRITES and the binding
+          // has no create-only write, so two processes enrolling at
+          // once would each seal under their own key and the loser's
+          // key would be gone. The lock serialises enrollment; the
+          // re-read under it adopts a key another process stored
+          // while we waited.
+          stored = await withEnrollmentLock(opts.service, opts.account, () => {
+            const existing = entry.getPassword()
+            if (existing !== null) return existing
+            const fresh = new Uint8Array(32)
+            globalThis.crypto.getRandomValues(fresh)
+            entry.setPassword(bytesToBase64(fresh))
+            const persisted = entry.getPassword()
+            if (persisted === null) {
+              throw new Error(
+                '@noy-db/at-macos-keychain: setPassword succeeded but '
+                + 'getPassword returned null immediately after. '
+                + 'Keychain may be denying access or the entry was '
+                + 'deleted out from under us.',
+              )
+            }
+            return persisted
+          })
         }
         const keyBytes = base64ToBytes(stored)
         if (keyBytes.length !== 32) {
@@ -317,4 +331,53 @@ function base64ToBytes(b64: string): Uint8Array {
   const out = new Uint8Array(binary.length)
   for (let i = 0; i < binary.length; i++) out[i] = binary.charCodeAt(i)
   return out
+}
+
+/** A lock older than this is presumed abandoned by a killed process. */
+const ENROLLMENT_LOCK_STALE_MS = 30_000
+const ENROLLMENT_LOCK_POLL_MS = 25
+
+/**
+ * Run `fn` holding an exclusive lock for `(service, account)`.
+ *
+ * The lock is a file created with O_EXCL (`'wx'`) in the per-user temp
+ * dir. The Keychain is per machine, so a machine-local lock covers every
+ * process that can race on the same entry.
+ *
+ * Residual: a process killed inside the window leaves its lock behind,
+ * and enrollment waits up to {@link ENROLLMENT_LOCK_STALE_MS} before
+ * breaking it. Two waiters breaking the same stale lock at once can
+ * both proceed — that needs a crash and a concurrent double first-launch.
+ */
+async function withEnrollmentLock<T>(
+  service: string,
+  account: string,
+  fn: () => T,
+): Promise<T> {
+  const id = createHash('sha256').update(`${service}\0${account}`).digest('hex').slice(0, 32)
+  const path = join(tmpdir(), `noydb-at-macos-keychain-${id}.lock`)
+  let fd: number | undefined
+  while (fd === undefined) {
+    try {
+      fd = openSync(path, 'wx')
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code !== 'EEXIST') throw err
+      try {
+        if (Date.now() - statSync(path).mtimeMs > ENROLLMENT_LOCK_STALE_MS) unlinkSync(path)
+      } catch {
+        // Released or broken by another process between our calls — retry.
+      }
+      await new Promise(resolve => setTimeout(resolve, ENROLLMENT_LOCK_POLL_MS))
+    }
+  }
+  try {
+    return fn()
+  } finally {
+    closeSync(fd)
+    try {
+      unlinkSync(path)
+    } catch {
+      // Already broken as stale by another process — nothing left to remove.
+    }
+  }
 }

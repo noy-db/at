@@ -109,6 +109,7 @@ The provider exposes only `NoydbSealer` — not `RecipientSealer`. It is **self-
 ## Key lifecycle
 
 - **First call ever for a given `(service, account)`**: generates a fresh 32-byte AES-256 key via `crypto.getRandomValues`, base64-encodes it, stores in the Keychain. The `seal`/`unseal` operation then proceeds using that key.
+- **Concurrent first launches** (two processes, same `(service, account)`) are serialised by an exclusive lock file in the per-user temp dir, and the loser adopts the winner's key. A process killed while holding it leaves the lock behind; enrollment waits up to 30 s, then breaks it as stale.
 - **Subsequent calls (same process or any future process under the same OS user)**: read the stored base64, decode, import as a `CryptoKey`, perform AES-256-GCM.
 - **Different `(service, account)` → different Keychain entry → different key**. Sealed outputs from one pair cannot be unsealed by another.
 - **Cache**: the imported `CryptoKey` is cached for the lifetime of the provider instance. Long-running processes do not pay a Keychain round-trip per seal/unseal.
