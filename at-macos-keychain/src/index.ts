@@ -20,10 +20,10 @@
  * ## When NOT to use
  *
  * - Server-side / containerized deployments — there is no Keychain
- *   there. Use `@noy-db/at-env` or `@noy-db/at-aws-kms` (when it
- *   ships).
+ *   there. Use `@noy-db/at-env` or a cloud KMS provider
+ *   (`@noy-db/at-aws-kms`, `@noy-db/at-gcp-kms`, `@noy-db/at-azure-keyvault`).
  * - Browser apps — Keychain is a native OS feature, not exposed to
- *   browser sandboxes. Use `@noy-db/at-webauthn-prf` (when it ships).
+ *   browser sandboxes. No `at-*` provider targets the browser.
  *
  * ## Setup
  *
