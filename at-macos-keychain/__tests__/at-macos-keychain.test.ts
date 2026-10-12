@@ -14,6 +14,10 @@
  * tested everywhere; only the platform-bound Keychain binding needs
  * a real macOS runner.
  */
+import { createHash, randomUUID } from 'node:crypto'
+import { existsSync, utimesSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { KeychainEntry } from '../src/index.js'
 import { atMacosKeychain } from '../src/index.js'
@@ -145,6 +149,57 @@ describe('@noy-db/at-macos-keychain — seal/unseal pipeline', () => {
 })
 
 describe('@noy-db/at-macos-keychain — key lifecycle', () => {
+  it('concurrent first enrollments converge on ONE stored key', async () => {
+    // Two instances over one Keychain item. B starts enrolling inside A's
+    // setPassword — after A saw an empty entry, before A's write lands.
+    // Enrollment up to the lock is synchronous, so without the lock B's
+    // key is overwritten by A's and B's sealed blob is lost.
+    const service = `com.acme.race-${randomUUID()}`
+    let stored: string | null = null
+    let triggered = false
+    let sealedByB: Promise<Uint8Array> | undefined
+    const shared: KeychainEntry = {
+      getPassword: () => stored,
+      setPassword: (v: string) => {
+        if (!triggered) {
+          triggered = true
+          sealedByB = b.seal(new TextEncoder().encode('from B'))
+        }
+        stored = v
+      },
+      deletePassword: () => { const had = stored !== null; stored = null; return had },
+    }
+    const a = atMacosKeychain({ service, account: 'alice', entry: shared })
+    const b = atMacosKeychain({ service, account: 'alice', entry: shared })
+
+    const sealedByA = await a.seal(new TextEncoder().encode('from A'))
+    expect(sealedByB).toBeDefined()
+    const fromB = await sealedByB!
+
+    // A later process reads whatever the Keychain kept; both blobs must open.
+    const restarted = atMacosKeychain({ service, account: 'alice', entry: shared })
+    expect(new TextDecoder().decode(await restarted.unseal(sealedByA))).toBe('from A')
+    expect(new TextDecoder().decode(await restarted.unseal(fromB))).toBe('from B')
+  })
+
+  it('breaks an enrollment lock left stale by a killed process', async () => {
+    const service = `com.acme.stale-${randomUUID()}`
+    const id = createHash('sha256').update(`${service}\0alice`).digest('hex').slice(0, 32)
+    const lock = join(tmpdir(), `noydb-at-macos-keychain-${id}.lock`)
+    writeFileSync(lock, '')
+    const longAgo = new Date(Date.now() - 60_000)
+    utimesSync(lock, longAgo, longAgo)
+
+    const entry = memoryEntry()
+    const p = atMacosKeychain({ service, account: 'alice', entry })
+    await p.seal(new Uint8Array([0]))
+
+    expect(entry.getPassword()).not.toBeNull()
+    // Gone only if enrollment found it at this path, broke it, then released
+    // its own — a drifted path would leave the planted file behind.
+    expect(existsSync(lock)).toBe(false)
+  })
+
   it('generates a fresh 32-byte key on first call when Keychain is empty', async () => {
     const entry = memoryEntry()
     expect(entry.getPassword()).toBeNull() // empty
@@ -203,7 +258,9 @@ describe('@noy-db/at-macos-keychain — key lifecycle', () => {
     // The first call to getKey() reads the entry; later calls reuse
     // the cached CryptoKey. Some implementation latitude — we just
     // assert it doesn't grow linearly with the number of operations.
-    expect(getSpy.mock.calls.length).toBeLessThanOrEqual(2)
+    // First enrollment reads three times: the check, the re-check under
+    // the enrollment lock, and the read-back after setPassword.
+    expect(getSpy.mock.calls.length).toBeLessThanOrEqual(3)
   })
 
   it('throws when stored key is valid base64 but wrong byte length', async () => {
