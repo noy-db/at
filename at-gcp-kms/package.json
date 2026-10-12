@@ -57,8 +57,7 @@
     "kms",
     "sealing-key-provider",
     "managed-secret",
-    "encryption",
-    "zero-knowledge"
+    "encryption"
   ],
   "publishConfig": {
     "access": "public",

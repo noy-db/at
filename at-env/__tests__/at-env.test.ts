@@ -6,7 +6,7 @@
  * Sealing is AES-256-GCM under a 32-byte key read from a configurable
  * environment variable (default `NOYDB_SEALING_KEY`, base64-encoded).
  */
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { atEnv } from '../src/index.js'
 
 const TEST_ENV = 'NOYDB_TEST_SEALING_KEY'
@@ -30,6 +30,20 @@ describe('@noy-db/at-env — atEnv', () => {
     expect(sealed).not.toEqual(original) // ciphertext differs
     const unsealed = await p.unseal(sealed)
     expect(new TextDecoder().decode(unsealed)).toBe('the managed secret bytes')
+  })
+
+  it('zeroes the raw key bytes once the CryptoKey is imported, and still round-trips', async () => {
+    const importKey = vi.spyOn(globalThis.crypto.subtle, 'importKey')
+    try {
+      const p = atEnv({ envVar: TEST_ENV })
+      const sealed = await p.seal(new TextEncoder().encode('zeroed'))
+      const raw = importKey.mock.calls[0]![1] as Uint8Array
+      expect(raw.length).toBe(32)
+      expect(raw.every(b => b === 0)).toBe(true)
+      expect(new TextDecoder().decode(await p.unseal(sealed))).toBe('zeroed')
+    } finally {
+      importKey.mockRestore()
+    }
   })
 
   it('produces different ciphertext for the same plaintext (fresh IV per seal)', async () => {

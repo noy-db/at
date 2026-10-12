@@ -52,8 +52,8 @@ const vault = await db.openVault('acme')
 
 ## When NOT to use this provider
 
-- ❌ Laptops or shared dev machines where other users have shell access. They can `echo $NOYDB_SEALING_KEY` and exfiltrate the key. Use [`@noy-db/at-macos-keychain`](../at-macos-keychain) / [`@noy-db/at-wincred`](../at-wincred) / [`@noy-db/at-libsecret`](../at-libsecret) for desktop apps. *(coming soon)*
-- ❌ Compliance regimes requiring auditable key access logs (FedRAMP, HIPAA with managed-encryption requirements). Use [`@noy-db/at-aws-kms`](../at-aws-kms) for KMS-backed key access auditing. *(coming soon)*
+- ❌ Laptops or shared dev machines where other users have shell access. They can `echo $NOYDB_SEALING_KEY` and exfiltrate the key. On macOS use [`@noy-db/at-macos-keychain`](../at-macos-keychain).
+- ❌ Compliance regimes requiring auditable key access logs (FedRAMP, HIPAA with managed-encryption requirements). Use [`@noy-db/at-aws-kms`](../at-aws-kms) for KMS-backed key access auditing.
 
 ## Key rotation
 
@@ -66,13 +66,15 @@ Rotating the env-var key is currently manual:
 5. Overwrite `_meta/sealed-secret`.
 6. Swap the env var to the new value.
 
-An automated `noydb seal rotate` CLI command is tracked as a follow-up. For lower-touch rotation, use `@noy-db/at-aws-kms` once it lands — KMS handles CMK rotation automatically.
+An automated `noydb seal rotate` CLI command is tracked as a follow-up. For lower-touch rotation, use `@noy-db/at-aws-kms` — KMS handles CMK rotation automatically.
 
 ## Threat model
 
-The env var IS the security boundary. If an attacker gains read access to your process's environment, they can decrypt every record sealed under that key.
+Like all `at-*` providers, this is a *trusted host* provider: the host you deploy it on CAN decrypt what it unseals. The env var IS the security boundary. If an attacker gains read access to your process's environment, they can decrypt every record sealed under that key.
 
 This provider is suitable when your deployment platform's secret management is trusted (you trust Kubernetes Secrets, you trust Heroku's env injection, etc.) and unsuitable when the env var sits in a shell profile, a `.env` file in version control, or a multi-tenant host where other tenants can read your environment.
+
+**Child processes inherit it.** Every process this one spawns receives a copy of its environment unless you pass an explicit `env` — so a shell-out, a build tool or a third-party CLI started from your app can read `NOYDB_SEALING_KEY`. Strip it from the environment you hand to children (`const { NOYDB_SEALING_KEY, ...env } = process.env` and pass `env`). The provider reads the variable once, at construction, so you may also `delete process.env.NOYDB_SEALING_KEY` after calling `atEnv()`.
 
 ## API
 
@@ -82,7 +84,7 @@ function atEnv(opts?: {
 }): NoydbSealer
 ```
 
-Returns a [`NoydbSealer`](../hub/src/port/at/index.ts) — importable as `@noy-db/hub/at` — the contract `@noy-db/hub`'s managed-secret mode consumes. The provider validates the env var at construction time and caches the imported `CryptoKey` for the lifetime of the instance.
+Returns a `NoydbSealer` — importable as a type from `@noy-db/hub/at` — the contract `@noy-db/hub`'s managed-secret mode consumes. The provider validates the env var at construction time and caches the imported `CryptoKey` for the lifetime of the instance.
 
 Throws at construction when the env var is unset, not valid base64, or not 32 bytes.
 

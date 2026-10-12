@@ -54,9 +54,9 @@ const vault = await db.openVault('acme')
 
 ## When NOT to use this provider
 
-- ❌ Server-side / containerized deployments — there is no Keychain in a container. Use [`@noy-db/at-env`](../at-env) or `@noy-db/at-aws-kms` (when it ships).
-- ❌ Browser apps — Keychain is a native OS feature; not exposed to browser sandboxes. Use `@noy-db/at-webauthn-prf` (when it ships).
-- ❌ Cross-machine handover (where a SaaS hands a customer their bundle to open on their laptop). Keychain entries don't leave a Mac (except via iCloud Keychain sync between the same user's devices); this provider can't seal *for* an arbitrary recipient. Use a handover-capable cloud-KMS provider (`@noy-db/at-aws-kms` asymmetric, when it ships).
+- ❌ Server-side / containerized deployments — there is no Keychain in a container. Use [`@noy-db/at-env`](../at-env) or a cloud KMS provider ([`@noy-db/at-aws-kms`](../at-aws-kms), [`@noy-db/at-gcp-kms`](../at-gcp-kms), [`@noy-db/at-azure-keyvault`](../at-azure-keyvault)).
+- ❌ Browser apps — Keychain is a native OS feature; not exposed to browser sandboxes. No `at-*` provider targets the browser.
+- ❌ Cross-machine handover (where a SaaS hands a customer their bundle to open on their laptop). Keychain entries don't leave a Mac (except via iCloud Keychain sync between the same user's devices); this provider can't seal *for* an arbitrary recipient. Use `awsKmsRecipientSealer` from [`@noy-db/at-aws-kms`](../at-aws-kms) (asymmetric RSA KMS key).
 
 ## Provider id format
 

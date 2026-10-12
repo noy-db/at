@@ -266,6 +266,6 @@ describe('@noy-db/at-macos-keychain — platform guard', () => {
     Object.defineProperty(process, 'platform', { value: 'win32', configurable: true })
     expect(() =>
       atMacosKeychain({ service: 'com.acme.app', account: 'alice' }),
-    ).toThrow(/at-env|at-wincred|at-libsecret/i)
+    ).toThrow(/at-env.*at-aws-kms/i)
   })
 })

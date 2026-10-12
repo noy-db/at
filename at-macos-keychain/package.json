@@ -67,8 +67,7 @@
     "keychain",
     "aes-256-gcm",
     "rubber-hose-resistant",
-    "encryption",
-    "zero-knowledge"
+    "encryption"
   ],
   "publishConfig": {
     "access": "public",

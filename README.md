@@ -28,19 +28,21 @@ npm i @noy-db/hub @noy-db/at-aws-kms
 ## Develop
 
 ```bash
-pnpm install && pnpm build && pnpm test && pnpm lint && pnpm typecheck
-pnpm check:architecture
-pnpm check:peer-floor
+pnpm install && pnpm build && pnpm test && pnpm lint && pnpm typecheck && pnpm typecheck:test
 ```
+
+The family gates (`architecture`, `peer-floor` and the rest listed in `family.config.json`) run in
+CI from the shared release rail; this repo keeps no local copy of them.
 
 Tests run against **no real cloud service** — every provider is mock-tested, and a few
 credential-gated cases skip by design (the same ones skip in the monorepo).
 
 ## Coverage
 
-Four of five bind the published `@noy-db/test-sealer-conformance` kit. **`at-azure-keyvault` does
-not**, so it has no external-author verification — its suite is written by the same author as its
-code. Do not read a green run there as a kit run.
+All five bind the published conformance kit at `@noy-db/ports/at`, through two entry points:
+`at-env` and `at-macos-keychain` run the full `runSealerConformanceTests` (the crypto is theirs);
+the three cloud providers run `runDelegatingSealerObligations`, because their crypto is the
+service's — a fake KMS behind the full suite would test the fake.
 
 Publishing happens from a **GitHub Release** triggering `release.yml`, never a raw `npm publish`.
 Pre-1.0: public APIs may still change.

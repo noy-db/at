@@ -18,9 +18,8 @@
  * ## When NOT to use
  *
  * - Laptops / shared dev machines where other users have shell access.
- *   They can `echo $NOYDB_SEALING_KEY` and exfiltrate the key. Use
- *   `@noy-db/at-macos-keychain` / `@noy-db/at-wincred` /
- *   `@noy-db/at-libsecret` for desktop apps.
+ *   They can `echo $NOYDB_SEALING_KEY` and exfiltrate the key. On macOS
+ *   use `@noy-db/at-macos-keychain`.
  * - Compliance regimes requiring auditable key access (FedRAMP, HIPAA
  *   with managed-encryption requirements). Use `@noy-db/at-aws-kms` for
  *   KMS-backed key access logs.
@@ -98,7 +97,9 @@ export function atEnv(
   }
 
   // Lazy + cached import — the CryptoKey is created on first seal/unseal
-  // and reused for the lifetime of the provider instance.
+  // and reused for the lifetime of the provider instance. The raw bytes
+  // are zeroed once importKey settles: the non-extractable CryptoKey holds
+  // its own copy, and nothing else reads keyBytes again.
   let cachedKey: Promise<CryptoKey> | null = null
   const getKey = (): Promise<CryptoKey> => {
     if (!cachedKey) {
@@ -108,7 +109,7 @@ export function atEnv(
         'AES-GCM',
         false,
         ['encrypt', 'decrypt'],
-      )
+      ).finally(() => keyBytes.fill(0))
     }
     return cachedKey
   }
