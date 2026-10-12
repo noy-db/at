@@ -178,9 +178,8 @@ export function atMacosKeychain(
     throw new Error(
       `@noy-db/at-macos-keychain: refusing to construct provider on `
       + `platform "${process.platform}". This package only operates on `
-      + 'darwin (macOS). For other platforms use @noy-db/at-env (server), '
-      + '@noy-db/at-wincred (Windows desktop), @noy-db/at-libsecret (Linux desktop), '
-      + 'or @noy-db/at-webauthn-prf (browser).',
+      + 'darwin (macOS). For other platforms use @noy-db/at-env, or a cloud KMS '
+      + 'provider (@noy-db/at-aws-kms, @noy-db/at-gcp-kms, @noy-db/at-azure-keyvault).',
     )
   }
 
