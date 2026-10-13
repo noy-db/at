@@ -15,6 +15,22 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 ---
 
+## 0.10.0-pre.2
+
+**`at-macos-keychain` serialises first enrollment, `at-env` zeroes its raw key bytes**, in the
+`0.10.0-pre.2` cut (family#157). Exact dev pins on `@noy-db/hub` and `@noy-db/ports` move to
+`0.10.0-pre.2`; `@noy-db/to-memory` and `@noy-db/on-shamir` stay at `0.10.0-pre.0`, the version
+their publishers carry. Peer ranges unchanged — `^0.10.0-pre.0` already admits `0.10.0-pre.2`.
+
+- `at-macos-keychain`: two processes enrolling the same `(service, account)` at once each sealed
+  under their own key and the loser's was overwritten — `setPassword` overwrites, and the binding
+  has no create-only write. Enrollment now runs under an exclusive lock file in the per-user temp
+  dir and adopts a key stored while it waited; a lock older than 30 s is broken as stale (#24).
+- `at-env`: the raw key bytes are zeroed once the non-extractable `CryptoKey` is imported (#23).
+- All five manifests drop the `zero-knowledge` keyword — `at-*` is the one family that is not (#23).
+- READMEs and source docs: the trusted-host sentence and child-process inheritance in `at-env`;
+  no phantom providers (`at-wincred`, `at-libsecret`, `at-webauthn-prf`) or "when it ships" (#23).
+
 ## 0.10.0-pre.0
 
 **Five sealing-key providers join the 0.10 pre line**, in the whole-family `0.10.0-pre.0` cut. No source
