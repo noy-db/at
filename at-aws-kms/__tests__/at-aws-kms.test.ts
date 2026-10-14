@@ -1,7 +1,13 @@
 import { describe, it, expect, vi } from 'vitest'
 import { atAwsKms, awsKmsRecipientSealer } from '../src/index.js'
 
+// Models KMS's EncryptionContext rule: Decrypt succeeds only with the exact
+// context the blob was encrypted under (none matches none). This is the FAKE's
+// semantics — the real service's are not this repo's to witness.
 function fakeKmsClient() {
+  const contexts = new Map<string, string>()
+  const key = (b: Uint8Array) => Array.from(b).join(',')
+  const ctxOf = (input: any) => JSON.stringify(input.EncryptionContext ?? null)
   return {
     send: vi.fn(async (cmd: any) => {
       const name = cmd.constructor.name
@@ -9,10 +15,14 @@ function fakeKmsClient() {
         const pt: Uint8Array = cmd.input.Plaintext
         const blob = new Uint8Array(4 + pt.length)
         blob.set([1, 2, 3, 4], 0); blob.set(pt, 4)
+        contexts.set(key(blob), ctxOf(cmd.input))
         return { CiphertextBlob: blob }
       }
       if (name === 'DecryptCommand') {
         const blob: Uint8Array = cmd.input.CiphertextBlob
+        if (contexts.get(key(blob)) !== ctxOf(cmd.input)) {
+          throw new Error('InvalidCiphertextException')
+        }
         return { Plaintext: blob.subarray(4) }
       }
       throw new Error('unexpected command ' + name)
@@ -224,5 +234,32 @@ describe.skipIf(!RUN_REAL_RSA)('awsKmsRecipientSealer (real KMS asymmetric RSA k
     const plaintext = new TextEncoder().encode('real-rsa-recipient-test')
     const sealed = await sealer.sealForRecipient(plaintext, hint)
     expect(await sealer.unseal(sealed)).toEqual(plaintext)
+  })
+})
+
+describe('atAwsKms — vault binding (family#157)', () => {
+  const keyId = 'arn:aws:kms:us-east-1:1:key/abc'
+  const secret = new TextEncoder().encode('vault-secret')
+
+  it('unseals a blob sealed WITHOUT a context when hub now passes one (pre-#157 vaults)', async () => {
+    const p = atAwsKms({ keyId, client: fakeKmsClient() as any })
+    const legacy = await p.seal(secret)
+    expect(await p.unseal(legacy, { vault: 'A' })).toEqual(secret)
+  })
+
+  it('binds ctx.vault as the KMS EncryptionContext', async () => {
+    const client = fakeKmsClient()
+    const p = atAwsKms({ keyId, client: client as any })
+    const sealed = await p.seal(secret, { vault: 'A' })
+    const enc = client.send.mock.calls.find(([c]: any[]) => c.constructor.name === 'EncryptCommand')![0]
+    expect(enc.input.EncryptionContext).toEqual({ 'noydb:vault': 'A' })
+    expect(await p.unseal(sealed, { vault: 'A' })).toEqual(secret)
+  })
+
+  it('refuses a blob sealed for vault A when unsealed for vault B, or with no context', async () => {
+    const p = atAwsKms({ keyId, client: fakeKmsClient() as any })
+    const sealed = await p.seal(secret, { vault: 'A' })
+    await expect(p.unseal(sealed, { vault: 'B' })).rejects.toThrow()
+    await expect(p.unseal(sealed)).rejects.toThrow()
   })
 })

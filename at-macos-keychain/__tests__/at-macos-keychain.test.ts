@@ -326,3 +326,26 @@ describe('@noy-db/at-macos-keychain — platform guard', () => {
     ).toThrow(/at-env.*at-aws-kms/i)
   })
 })
+
+describe('@noy-db/at-macos-keychain — vault binding (family#157)', () => {
+  const secret = new TextEncoder().encode('vault-secret')
+  const provider = () => atMacosKeychain({ service: `com.acme.bind-${randomUUID()}`, account: 'alice', entry: memoryEntry() })
+
+  it('unseals a blob sealed WITHOUT a context when hub now passes one (pre-#157 vaults)', async () => {
+    const p = provider()
+    const legacy = await p.seal(secret)
+    expect(await p.unseal(legacy, { vault: 'A' })).toEqual(secret)
+  })
+
+  it('round-trips with a vault context', async () => {
+    const p = provider()
+    expect(await p.unseal(await p.seal(secret, { vault: 'A' }), { vault: 'A' })).toEqual(secret)
+  })
+
+  it('refuses a blob sealed for vault A when unsealed for vault B, or with no context', async () => {
+    const p = provider()
+    const sealed = await p.seal(secret, { vault: 'A' })
+    await expect(p.unseal(sealed, { vault: 'B' })).rejects.toThrow()
+    await expect(p.unseal(sealed)).rejects.toThrow()
+  })
+})

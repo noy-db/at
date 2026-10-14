@@ -161,3 +161,27 @@ describe('@noy-db/at-env — integration with @noy-db/hub managed-secret mode', 
     db2.close()
   }, 30_000)
 })
+
+describe('@noy-db/at-env — vault binding (family#157)', () => {
+  beforeEach(() => { process.env[TEST_ENV] = TEST_KEY_BASE64 })
+  afterEach(() => { delete process.env[TEST_ENV] })
+  const secret = new TextEncoder().encode('vault-secret')
+
+  it('unseals a blob sealed WITHOUT a context when hub now passes one (pre-#157 vaults)', async () => {
+    const p = atEnv({ envVar: TEST_ENV })
+    const legacy = await p.seal(secret)
+    expect(await p.unseal(legacy, { vault: 'A' })).toEqual(secret)
+  })
+
+  it('round-trips with a vault context', async () => {
+    const p = atEnv({ envVar: TEST_ENV })
+    expect(await p.unseal(await p.seal(secret, { vault: 'A' }), { vault: 'A' })).toEqual(secret)
+  })
+
+  it('refuses a blob sealed for vault A when unsealed for vault B, or with no context', async () => {
+    const p = atEnv({ envVar: TEST_ENV })
+    const sealed = await p.seal(secret, { vault: 'A' })
+    await expect(p.unseal(sealed, { vault: 'B' })).rejects.toThrow()
+    await expect(p.unseal(sealed)).rejects.toThrow()
+  })
+})

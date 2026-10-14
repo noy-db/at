@@ -68,6 +68,10 @@ const vault = await db.openVault('acme')
 
 KMS supports automatic key rotation for symmetric keys. Enable it on the CMK and KMS handles the rest — your `keyId` stays the same, no app changes needed. Cross-key migration (moving sealed secrets to a different CMK) requires manual re-sealing with `unseal` + `seal` under the new key.
 
+## Vault binding
+
+When hub passes a vault (`seal(secret, { vault })`, hub 0.10.0-pre.2 and later), the vault name is sent as the KMS **EncryptionContext** `{ "noydb:vault": <vault> }`. KMS refuses to decrypt that blob under any other vault, and the name appears in the CloudTrail record of every `Encrypt` and `Decrypt` — so the access log says *which* vault was opened. A blob sealed without a context — every blob from before this change, and a pod's portable credentials, which hub seals without one on purpose — stays portable and unseals exactly as before, with or without a context. A bound blob is marked as such, so the provider decides from the blob, never from what the caller passes. Swapping an *older*, unbound blob between vaults still works; only blobs sealed from now on are bound.
+
 ## API
 
 ```ts

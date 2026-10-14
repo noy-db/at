@@ -112,3 +112,18 @@ describe.skipIf(!RUN_REAL)('atAzureKeyvault (real Azure Key Vault)', () => {
     expect(await p.unseal(await p.seal(phrase))).toEqual(phrase)
   })
 })
+
+describe('atAzureKeyvault — vault context (family#157)', () => {
+  // RSA-OAEP has no AAD, so this provider accepts the context and ignores it:
+  // the blob is NOT bound to a vault. Pinned so a change here is deliberate.
+  const keyId = 'https://my-vault.vault.azure.net/keys/noydb-sealing/abc123'
+  const secret = new TextEncoder().encode('vault-secret')
+
+  it('accepts a context without binding to it — the blob opens with any context or none', async () => {
+    const p = atAzureKeyvault({ keyId, cryptographyClient: fakeCrypto() as any })
+    const sealed = await p.seal(secret, { vault: 'A' })
+    expect(sealed).toEqual(await p.seal(secret))
+    expect(await p.unseal(sealed, { vault: 'B' })).toEqual(secret)
+    expect(await p.unseal(sealed)).toEqual(secret)
+  })
+})

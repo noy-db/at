@@ -15,6 +15,24 @@ and must therefore correct a bad entry *alongside*, in the next one.
 
 ---
 
+## Unreleased
+
+**Sealed blobs are bound to their vault** when hub passes one (family#157; hub `0.10.0-pre.2`
+calls `seal(secret, { vault })` / `unseal(sealed, { vault })`). Peer ranges unchanged — the
+context parameter is structural, so every hub the range admits still compiles, and a hub that
+passes no context gets today's portable blob.
+
+- `at-aws-kms`: the vault is the KMS EncryptionContext `{ "noydb:vault": <vault> }` — enforced
+  by KMS, and named in CloudTrail on every `Encrypt` / `Decrypt`.
+- `at-gcp-kms`: the vault is Cloud KMS additional authenticated data.
+- `at-env`, `at-macos-keychain`: the vault is AES-GCM additional authenticated data.
+- `at-azure-keyvault`: accepts the context and ignores it — RSA-OAEP has no AAD. Documented.
+- A bound blob carries a 4-byte marker and unseals only with its vault. A blob without one —
+  every blob sealed before this change, and pod credentials hub seals without a context on
+  purpose — unseals exactly as before. The form is read off the blob, never off the argument:
+  hub passes `{ vault }` when reopening vaults sealed before contexts existed, and binding on
+  the argument would lock every one of them out.
+
 ## 0.10.0-pre.2
 
 **`at-macos-keychain` serialises first enrollment, `at-env` zeroes its raw key bytes**, in the

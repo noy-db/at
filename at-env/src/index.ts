@@ -117,22 +117,28 @@ export function atEnv(
   return {
     id: `env:${envVar}`,
 
-    async seal(secret: Uint8Array): Promise<Uint8Array> {
+    async seal(secret: Uint8Array, ctx?: VaultContext): Promise<Uint8Array> {
       const key = await getKey()
       const iv = globalThis.crypto.getRandomValues(new Uint8Array(12))
       const ciphertext = await globalThis.crypto.subtle.encrypt(
-        { name: 'AES-GCM', iv: iv as BufferSource },
+        aesGcmParams(iv, ctx),
         key,
         secret as unknown as BufferSource,
       )
-      // Output format: [12-byte IV][ciphertext + 16-byte GCM tag]
+      // Output format: [12-byte IV][ciphertext + 16-byte GCM tag], behind
+      // the vault-bound marker when sealed with a context.
       const out = new Uint8Array(12 + ciphertext.byteLength)
       out.set(iv, 0)
       out.set(new Uint8Array(ciphertext), 12)
-      return out
+      return ctx ? markVaultBound(out) : out
     },
 
-    async unseal(sealed: Uint8Array): Promise<Uint8Array> {
+    async unseal(blob: Uint8Array, ctx?: VaultContext): Promise<Uint8Array> {
+      const bound = isVaultBound(blob)
+      if (bound && !ctx) {
+        throw new Error('@noy-db/at-env: sealed bytes are bound to a vault; unseal them with its context.')
+      }
+      const sealed = bound ? blob.subarray(VAULT_BOUND_MARKER.length) : blob
       // 12-byte IV + ≥ 16-byte GCM tag minimum.
       if (sealed.length < 12 + 16) {
         throw new Error(
@@ -144,7 +150,7 @@ export function atEnv(
       const body = sealed.subarray(12)
       const key = await getKey()
       const plaintext = await globalThis.crypto.subtle.decrypt(
-        { name: 'AES-GCM', iv: iv as BufferSource },
+        aesGcmParams(iv, bound ? ctx : undefined),
         key,
         body as unknown as BufferSource,
       )
@@ -165,4 +171,42 @@ function base64ToBytes(b64: string): Uint8Array {
   const out = new Uint8Array(binary.length)
   for (let i = 0; i < binary.length; i++) out[i] = binary.charCodeAt(i)
   return out
+}
+
+/**
+ * The vault a sealed blob belongs to (family#157). Structural rather than hub's
+ * `SealContext` import, so this compiles against every hub the peer range admits
+ * — hubs before 0.10.0-pre.2 never pass it, and the blob stays portable.
+ */
+type VaultContext = { readonly vault: string }
+
+/**
+ * A blob sealed WITH a vault context starts with this marker and is bound to
+ * `ctx.vault`; a blob without it is portable — sealed with no context, or
+ * before family#157 existed. Unseal reads the form off the BLOB, never off the
+ * `ctx` argument: hub passes `{ vault }` when it reopens a vault sealed before
+ * contexts existed, and binding on the argument would lock every such vault
+ * out.
+ * A pre-#157 blob opens with a random 12-byte IV, so it carries the marker by
+ * chance with p = 2^-32 — and then fails to unseal.
+ */
+const VAULT_BOUND_MARKER = new Uint8Array([0xff, 0x00, 0x6e, 0x76])
+
+function isVaultBound(sealed: Uint8Array): boolean {
+  return sealed.length >= VAULT_BOUND_MARKER.length
+    && VAULT_BOUND_MARKER.every((b, i) => sealed[i] === b)
+}
+
+function markVaultBound(inner: Uint8Array): Uint8Array {
+  const out = new Uint8Array(VAULT_BOUND_MARKER.length + inner.length)
+  out.set(VAULT_BOUND_MARKER, 0)
+  out.set(inner, VAULT_BOUND_MARKER.length)
+  return out
+}
+
+/** AES-GCM parameters; a vault context becomes the additional authenticated data. */
+function aesGcmParams(iv: Uint8Array, ctx: VaultContext | undefined): AesGcmParams {
+  return ctx
+    ? { name: 'AES-GCM', iv: iv as BufferSource, additionalData: new TextEncoder().encode(`noydb:vault=${ctx.vault}`) }
+    : { name: 'AES-GCM', iv: iv as BufferSource }
 }

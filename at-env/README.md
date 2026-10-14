@@ -76,6 +76,10 @@ This provider is suitable when your deployment platform's secret management is t
 
 **Child processes inherit it.** Every process this one spawns receives a copy of its environment unless you pass an explicit `env` — so a shell-out, a build tool or a third-party CLI started from your app can read `NOYDB_SEALING_KEY`. Strip it from the environment you hand to children (`const { NOYDB_SEALING_KEY, ...env } = process.env` and pass `env`). The provider reads the variable once, at construction, so you may also `delete process.env.NOYDB_SEALING_KEY` after calling `atEnv()`.
 
+## Vault binding
+
+When hub passes a vault (`seal(secret, { vault })`, hub 0.10.0-pre.2 and later), the vault name is bound as AES-GCM **additional authenticated data**: the blob refuses to unseal under any other vault, even with the right key. A blob sealed without a context — every blob from before this change, and a pod's portable credentials, which hub seals without one on purpose — stays portable and unseals exactly as before, with or without a context. A bound blob is marked as such, so the provider decides from the blob, never from what the caller passes. Swapping an *older*, unbound blob between vaults still works; only blobs sealed from now on are bound.
+
 ## API
 
 ```ts
