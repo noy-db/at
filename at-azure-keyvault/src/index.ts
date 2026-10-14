@@ -116,14 +116,16 @@ export function atAzureKeyvault(opts: AtAzureKeyvaultOptions): NoydbSealer {
   return {
     id: `azure-kv:${opts.keyId}`,
 
-    async seal(secret) {
+    // `ctx` (family#157) is accepted and IGNORED: RSA-OAEP has no additional
+    // authenticated data, so a blob sealed here is not bound to a vault.
+    async seal(secret: Uint8Array, _ctx?: { readonly vault: string }) {
       const res = await client.encrypt({ algorithm, plaintext: secret })
       const c = res?.result
       if (!c) throw new Error('@noy-db/at-azure-keyvault: Key Vault encrypt returned no result')
       return c instanceof Uint8Array ? c : new Uint8Array(c)
     },
 
-    async unseal(sealed) {
+    async unseal(sealed: Uint8Array, _ctx?: { readonly vault: string }) {
       const res = await client.decrypt({ algorithm, ciphertext: sealed })
       const p = res?.result
       if (!p) throw new Error('@noy-db/at-azure-keyvault: Key Vault decrypt returned no result')

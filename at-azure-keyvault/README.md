@@ -90,6 +90,10 @@ const vault = await db.openVault('acme')
 
 This is a deliberate migration step — not transparent rotation. Treat it the same way you would a secret rotation in any other system.
 
+## Vault binding
+
+**Not bound.** Hub 0.10.0-pre.2 and later passes the vault being sealed for (`seal(secret, { vault })`); the AWS and GCP providers bind it, this one cannot. RSA-OAEP has no additional authenticated data, so the context is accepted and ignored and a blob sealed here unseals in any vault that holds it. Scope this with Key Vault access policy — one key per vault if a sealed blob must not be portable between vaults.
+
 ## API
 
 ```ts

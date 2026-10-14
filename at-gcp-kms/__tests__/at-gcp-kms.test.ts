@@ -1,17 +1,28 @@
 import { describe, it, expect } from 'vitest'
 import { atGcpKms } from '../src/index.js'
 
+// Models Cloud KMS's AAD rule: decrypt succeeds only with the exact
+// additionalAuthenticatedData the blob was encrypted under (none matches none).
+// This is the FAKE's semantics — the real service's are not this repo's to witness.
+type Aad = Uint8Array | string | null | undefined
 function fakeKms() {
+  const aads = new Map<string, string>()
+  const key = (b: Uint8Array) => Array.from(b).join(',')
+  const aadOf = (a: Aad) => (a == null || a.length === 0 ? '' : Array.from(a as Uint8Array).join(','))
   return {
-    encrypt: async (req: { name?: string | null; plaintext?: Uint8Array | string | null }) => {
+    encrypt: async (req: { name?: string | null; plaintext?: Uint8Array | string | null; additionalAuthenticatedData?: Aad }) => {
       const pt = req.plaintext as Uint8Array
       const c = new Uint8Array(4 + pt.length)
       c.set([9, 9, 9, 9], 0)
       c.set(pt, 4)
+      aads.set(key(c), aadOf(req.additionalAuthenticatedData))
       return [{ ciphertext: c }, undefined, undefined] as const
     },
-    decrypt: async (req: { name?: string | null; ciphertext?: Uint8Array | string | null }) => {
+    decrypt: async (req: { name?: string | null; ciphertext?: Uint8Array | string | null; additionalAuthenticatedData?: Aad }) => {
       const ct = req.ciphertext as Uint8Array
+      if (aads.get(key(ct)) !== aadOf(req.additionalAuthenticatedData)) {
+        throw new Error('INVALID_ARGUMENT: Decryption failed')
+      }
       return [{ plaintext: ct.subarray(4) }, undefined, undefined] as const
     },
   }
@@ -128,5 +139,28 @@ describe.skipIf(!RUN_REAL)('atGcpKms (real GCP KMS)', () => {
     const p = atGcpKms({ keyName: process.env.NOYDB_TEST_GCP_KMS_KEY_NAME! })
     const phrase = new TextEncoder().encode('real-key-test')
     expect(await p.unseal(await p.seal(phrase))).toEqual(phrase)
+  })
+})
+
+describe('atGcpKms — vault binding (family#157)', () => {
+  const keyName = 'projects/p/locations/global/keyRings/r/cryptoKeys/k'
+  const secret = new TextEncoder().encode('vault-secret')
+
+  it('unseals a blob sealed WITHOUT a context when hub now passes one (pre-#157 vaults)', async () => {
+    const p = atGcpKms({ keyName, client: fakeKms() as any })
+    const legacy = await p.seal(secret)
+    expect(await p.unseal(legacy, { vault: 'A' })).toEqual(secret)
+  })
+
+  it('round-trips with a vault context', async () => {
+    const p = atGcpKms({ keyName, client: fakeKms() as any })
+    expect(await p.unseal(await p.seal(secret, { vault: 'A' }), { vault: 'A' })).toEqual(secret)
+  })
+
+  it('refuses a blob sealed for vault A when unsealed for vault B, or with no context', async () => {
+    const p = atGcpKms({ keyName, client: fakeKms() as any })
+    const sealed = await p.seal(secret, { vault: 'A' })
+    await expect(p.unseal(sealed, { vault: 'B' })).rejects.toThrow()
+    await expect(p.unseal(sealed)).rejects.toThrow()
   })
 })

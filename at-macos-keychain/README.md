@@ -90,6 +90,10 @@ part of noy-db. A host you control can decrypt the scoped slice it unseals. That
 is the point of the family, and it is a real reduction in the guarantee the rest
 of the project makes.
 
+## Vault binding
+
+When hub passes a vault (`seal(secret, { vault })`, hub 0.10.0-pre.2 and later), the vault name is bound as AES-GCM **additional authenticated data**: the blob refuses to unseal under any other vault, even with the right key. A blob sealed without a context — every blob from before this change, and a pod's portable credentials, which hub seals without one on purpose — stays portable and unseals exactly as before, with or without a context. A bound blob is marked as such, so the provider decides from the blob, never from what the caller passes. Swapping an *older*, unbound blob between vaults still works; only blobs sealed from now on are bound.
+
 ## API
 
 ```ts

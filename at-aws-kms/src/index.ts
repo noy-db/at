@@ -83,18 +83,24 @@ export function atAwsKms(opts: AtAwsKmsOptions): NoydbSealer {
   return {
     id: `aws-kms:${opts.keyId}`,
 
-    async seal(secret) {
+    async seal(secret: Uint8Array, ctx?: VaultContext) {
       const out: EncryptCommandOutput = await client.send(
-        new EncryptCommand({ KeyId: opts.keyId, Plaintext: secret }),
+        new EncryptCommand({ KeyId: opts.keyId, Plaintext: secret, ...encryptionContext(ctx) }),
       )
       const blob = out.CiphertextBlob
       if (!blob) throw new Error('@noy-db/at-aws-kms: KMS Encrypt returned no CiphertextBlob')
-      return blob instanceof Uint8Array ? blob : new Uint8Array(blob)
+      const bytes = blob instanceof Uint8Array ? blob : new Uint8Array(blob)
+      return ctx ? markVaultBound(bytes) : bytes
     },
 
-    async unseal(sealed) {
+    async unseal(blob: Uint8Array, ctx?: VaultContext) {
+      const bound = isVaultBound(blob)
+      if (bound && !ctx) {
+        throw new Error('@noy-db/at-aws-kms: sealed bytes are bound to a vault; unseal them with its context.')
+      }
+      const sealed = bound ? blob.subarray(VAULT_BOUND_MARKER.length) : blob
       const out: DecryptCommandOutput = await client.send(
-        new DecryptCommand({ CiphertextBlob: sealed, KeyId: opts.keyId }),
+        new DecryptCommand({ CiphertextBlob: sealed, KeyId: opts.keyId, ...encryptionContext(bound ? ctx : undefined) }),
       )
       const pt = out.Plaintext
       if (!pt) throw new Error('@noy-db/at-aws-kms: KMS Decrypt returned no Plaintext')
@@ -215,4 +221,40 @@ export function awsKmsRecipientSealer(
       return pt
     },
   }
+}
+
+/**
+ * The vault a sealed blob belongs to (family#157). Structural rather than hub's
+ * `SealContext` import, so this compiles against every hub the peer range admits
+ * — hubs before 0.10.0-pre.2 never pass it, and the blob stays portable.
+ */
+type VaultContext = { readonly vault: string }
+
+/**
+ * A blob sealed WITH a vault context starts with this marker and is bound to
+ * `ctx.vault`; a blob without it is portable — sealed with no context, or
+ * before family#157 existed. Unseal reads the form off the BLOB, never off the
+ * `ctx` argument: hub passes `{ vault }` when it reopens a vault sealed before
+ * contexts existed, and binding on the argument would lock every such vault
+ * out.
+ * A pre-#157 blob's leading bytes are the service's ciphertext format; one that
+ * happened to begin with the marker would fail to unseal.
+ */
+const VAULT_BOUND_MARKER = new Uint8Array([0xff, 0x00, 0x6e, 0x76])
+
+function isVaultBound(sealed: Uint8Array): boolean {
+  return sealed.length >= VAULT_BOUND_MARKER.length
+    && VAULT_BOUND_MARKER.every((b, i) => sealed[i] === b)
+}
+
+function markVaultBound(inner: Uint8Array): Uint8Array {
+  const out = new Uint8Array(VAULT_BOUND_MARKER.length + inner.length)
+  out.set(VAULT_BOUND_MARKER, 0)
+  out.set(inner, VAULT_BOUND_MARKER.length)
+  return out
+}
+
+/** The vault as a KMS EncryptionContext — bound by KMS, and recorded in CloudTrail. */
+function encryptionContext(ctx: VaultContext | undefined): { EncryptionContext?: Record<string, string> } {
+  return ctx ? { EncryptionContext: { 'noydb:vault': ctx.vault } } : {}
 }
